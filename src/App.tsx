@@ -4,7 +4,7 @@ import { ThemeProvider } from "styled-components";
 import { theme } from "./styles/theme";
 import { GlobalStyles } from "./styles/GlobalStyles";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import EquipmentList from "./pages/equipment/index";
+import { AllEquipment } from "./pages/equipment";
 import EquipmentDetails from "./pages/equipment/[id]";
 import EquipmentRequests from "./pages/equipment/requests/index";
 import AdminDashboard from "./pages/admin/index";
@@ -17,23 +17,12 @@ const App: React.FC = () => (
     <GlobalStyles />
     <Router>
       <Routes>
-        {/* Home / Equipment List */}
-        <Route path="/" element={<EquipmentList />} />
-
-        {/* Equipment Details (Dynamic Route) */}
+        <Route path="/" element={<AllEquipment />} />
         <Route path="/equipment/:id" element={<EquipmentDetails />} />
-
-        {/* Equipment Requests */}
         <Route path="/equipment/requests" element={<EquipmentRequests />} />
-
-        {/* Admin Section */}
         <Route path="/admin" element={<AdminDashboard />} />
         <Route path="/admin/qr-codes" element={<AdminQRCodes />} />
-
-        {/* Login */}
         <Route path="/login" element={<Login />} />
-
-        {/* 404 Page */}
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
