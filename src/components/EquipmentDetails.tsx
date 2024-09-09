@@ -15,11 +15,19 @@ export const EquipmentDetails: React.FC = () => {
   if (isLoading) return <div>Loading...</div>;
   if (isError) return <div>Error loading equipment details.</div>;
 
-  // TODO: Update equipment details
+  if (!equipment) {
+    return <div>Equipment not found</div>;
+  }
+
   return (
     <div>
       <h1>{equipment?.name}</h1>
       <p>{equipment?.description}</p>
+      <p>{equipment?.equipment_model_number}</p>
+      <p>{equipment?.location}</p>
+      <img src={equipment?.image_url ?? ""} alt={equipment?.name} />
+      <p>{equipment?.created_at}</p>
+      <p>{equipment?.updated_at}</p>
     </div>
   );
 };

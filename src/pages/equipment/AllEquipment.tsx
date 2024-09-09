@@ -1,24 +1,27 @@
 import React from "react";
+import { useManyEquipment } from "../../hooks/useEquipment";
 
-// This is placeholder
-export const AllEquipment: React.FC = () => {
-  const equipmentList = [
-    { id: 1, name: "Equipment 1", description: "This is equipment 1" },
-    { id: 2, name: "Equipment 2", description: "This is equipment 2" },
-    { id: 3, name: "Equipment 3", description: "This is equipment 3" },
-  ];
+const AllEquipment: React.FC = () => {
+  const { equipmentList, isLoading, isError } = useManyEquipment();
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (isError) {
+    return <div>Error: {isError.message}</div>;
+  }
 
   return (
     <div>
       <h1>All Equipment</h1>
       <ul>
-        {equipmentList.map((equipment) => (
-          <li key={equipment.id}>
-            <h3>{equipment.name}</h3>
-            <p>{equipment.description}</p>
-          </li>
+        {equipmentList?.map((equipment) => (
+          <a href={`/equipment/${equipment.id}`}>{equipment.name}</a>
         ))}
       </ul>
     </div>
   );
 };
+
+export default AllEquipment;

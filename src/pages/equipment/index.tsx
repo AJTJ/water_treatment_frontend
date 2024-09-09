@@ -1,4 +1,4 @@
-import { AllEquipment } from "./AllEquipment";
-import { Equipment } from "./[id]";
+import AllEquipment from "./AllEquipment";
+import EquipmentPage from "./[id]";
 
-export { AllEquipment, Equipment };
+export { AllEquipment, EquipmentPage };

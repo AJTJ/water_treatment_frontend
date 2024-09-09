@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { EquipmentDetails } from "../../components/EquipmentDetails";
 
-export const Equipment: React.FC = () => {
+export const EquipmentPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
 
   return (
@@ -12,4 +12,4 @@ export const Equipment: React.FC = () => {
   );
 };
 
-export default EquipmentDetails;
+export default EquipmentPage;

@@ -1,11 +1,16 @@
 import useSWR from "swr";
 import {
+  Equipment,
   getEquipmentById,
-  getAllEquipment,
+  getManyEquipment,
 } from "../services/equipmentService";
+import { AxiosError } from "axios";
 
-export const useAllEquipment = () => {
-  const { data, error } = useSWR("/api/equipment", getAllEquipment);
+export const useManyEquipment = () => {
+  const { data, error } = useSWR<Equipment[], AxiosError>(
+    "/api/equipment",
+    getManyEquipment
+  );
 
   return {
     equipmentList: data,
@@ -15,7 +20,7 @@ export const useAllEquipment = () => {
 };
 
 export const useEquipment = (id: string) => {
-  const { data, error } = useSWR(
+  const { data, error } = useSWR<Equipment, AxiosError>(
     `/api/equipment/${id}`,
     () => getEquipmentById(id),
     {
@@ -29,3 +34,14 @@ export const useEquipment = (id: string) => {
     isError: error,
   };
 };
+
+export interface UseManyEquipmentResult {
+  equipmentList: Equipment[] | undefined;
+  isLoading: boolean;
+  isError: AxiosError | undefined;
+}
+export interface UseEquipmentResult {
+  equipment: Equipment | undefined;
+  isLoading: boolean;
+  isError: AxiosError | undefined;
+}
