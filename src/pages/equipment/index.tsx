@@ -1,4 +1,4 @@
-import AllEquipment from "./AllEquipment";
+import AllEquipment from "./EquipmentList";
 import EquipmentPage from "./[id]";
 
 export { AllEquipment, EquipmentPage };

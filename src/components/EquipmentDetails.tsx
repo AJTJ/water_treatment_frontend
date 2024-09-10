@@ -9,12 +9,10 @@ export const EquipmentDetails: React.FC = () => {
   const { equipment, isLoading, isError } = useEquipment(id ?? "");
 
   if (!id) {
-    return <div>Error: No equipment ID provided</div>; // Handle missing ID
+    return <div>Error: No equipment ID provided</div>;
   }
-
   if (isLoading) return <div>Loading...</div>;
   if (isError) return <div>Error loading equipment details.</div>;
-
   if (!equipment) {
     return <div>Equipment not found</div>;
   }
@@ -26,8 +24,8 @@ export const EquipmentDetails: React.FC = () => {
       <p>{equipment?.equipment_model_number}</p>
       <p>{equipment?.location}</p>
       <img src={equipment?.image_url ?? ""} alt={equipment?.name} />
-      <p>{equipment?.created_at}</p>
-      <p>{equipment?.updated_at}</p>
+      <p>{equipment?.created_at.toString()}</p>
+      <p>{equipment?.updated_at.toString()}</p>
     </div>
   );
 };
