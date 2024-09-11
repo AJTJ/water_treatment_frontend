@@ -12,6 +12,7 @@ export type QRCode = {
   full_url: string;
   status: QRCodeStatus;
   equipment_id?: string;
+  equipment_name?: string;
 };
 
 export const getQRCodeById = async (id: string): Promise<QRCode> => {
@@ -21,15 +22,30 @@ export const getQRCodeById = async (id: string): Promise<QRCode> => {
   return response.data;
 };
 
+export type QRCodeResponse = {
+  total: number;
+  qrCodes: QRCode[];
+};
+
 export const getManyQRCodes = async (
   skip: number = 0,
   limit: number = 10
-): Promise<QRCode[]> => {
-  const response: AxiosResponse<QRCode[]> = await axiosInstance.get(
+): Promise<QRCodeResponse> => {
+  const response: AxiosResponse<QRCodeResponse> = await axiosInstance.get(
     "/v1/qr_code",
     {
       params: { skip, limit },
     }
+  );
+  return response.data;
+};
+
+export const getManyQRCodesForPrinting = async (
+  minBatch: number,
+  maxBatch: number
+): Promise<QRCodeResponse> => {
+  const response: AxiosResponse<QRCodeResponse> = await axiosInstance.get(
+    `/v1/qr-codes-for-printing?min_batch_number=${minBatch}&max_batch_number=${maxBatch}`
   );
   return response.data;
 };

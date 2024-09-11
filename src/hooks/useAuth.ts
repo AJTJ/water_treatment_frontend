@@ -1,16 +1,37 @@
 import useSWR from "swr";
 import { AxiosError } from "axios";
-import { login, LoginResponse } from "../services/auth";
+import { login, LoginResponse } from "../services/authService";
+import { useState } from "react";
 
-export const useLogin = (username: string, password: string) => {
-  const { data, error } = useSWR<LoginResponse, AxiosError>(
-    username && password ? `/api/auth/login` : null,
-    () => login(username, password)
+// Hook for managing authentication state
+export const useAuth = () => {
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+
+  // SWR hook for login
+  const { data, error, mutate } = useSWR<LoginResponse, AxiosError>(
+    email && password ? "/api/auth/login" : null,
+    () => login(email, password)
   );
+
+  // Function to initiate login
+  const loginUser = (email: string, password: string) => {
+    setEmail(email);
+    setPassword(password);
+    mutate();
+  };
+
+  // Logout function (clearing cookies is handled by backend)
+  const logout = async () => {
+    await fetch("/api/auth/logout", { method: "POST" });
+    mutate(undefined, false); // Clears the SWR state
+  };
 
   return {
     loginResponse: data,
     isLoading: !error && !data,
     isError: error,
+    loginUser,
+    logout,
   };
 };

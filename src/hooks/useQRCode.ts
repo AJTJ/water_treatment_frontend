@@ -8,6 +8,8 @@ import {
   QRCode,
   QRCodeUpdate,
   updateQRCode,
+  getManyQRCodesForPrinting,
+  QRCodeResponse,
 } from "../services/qrCodeService";
 
 export const useQRCodeById = (id: string) => {
@@ -23,8 +25,17 @@ export const useQRCodeById = (id: string) => {
   };
 };
 
-export const useManyQRCodes = (skip: number = 0, limit: number = 10) => {
-  const { data, error } = useSWR<QRCode[], AxiosError>(
+export type GetManyQRCodesResult = {
+  qrCodeList: QRCodeResponse | undefined;
+  isLoading: boolean;
+  isError: AxiosError | undefined;
+};
+
+export const useGetManyQRCodes = (
+  skip: number = 0,
+  limit: number = 10
+): GetManyQRCodesResult => {
+  const { data, error } = useSWR<QRCodeResponse, AxiosError>(
     `/v1/qr_code?skip=${skip}&limit=${limit}`,
     () => getManyQRCodes(skip, limit)
   );
@@ -36,7 +47,27 @@ export const useManyQRCodes = (skip: number = 0, limit: number = 10) => {
   };
 };
 
-export const useCreateBatchQRCodes = (numberOfQRCodes: number) => {
+// export const useGetManyQRCodesForPrinting = (
+//   minBatch: number,
+//   maxBatch: number
+// ): GetManyQRCodesResult => {
+//   const { data, error } = useSWR<QRCode[], AxiosError>(
+//     minBatch && maxBatch
+//       ? `/v1/qr_codes_for_printing?minBatch=${minBatch}&maxBatch=${maxBatch}`
+//       : null,
+//     () => getManyQRCodesForPrinting(minBatch, maxBatch)
+//   );
+
+//   return {
+//     qrCodeList: data,
+//     isLoading: !error && !data,
+//     isError: error,
+//   };
+// };
+
+export const useCreateBatchQRCodes = (
+  numberOfQRCodes: number
+): UseCreateBatchQRCodesResult => {
   const { data, error } = useSWR<QRCode, AxiosError>(
     numberOfQRCodes ? "/api/v1/qr_code/" : null,
     () => createBatchQRCodes(numberOfQRCodes)
@@ -49,10 +80,16 @@ export const useCreateBatchQRCodes = (numberOfQRCodes: number) => {
   };
 };
 
+export type UseCreateBatchQRCodesResult = {
+  createdQRCode: QRCode | undefined;
+  isLoading: boolean;
+  isError: AxiosError | undefined;
+};
+
 export const useUpdateQRCode = (
   qrCodeId: string,
   qrCodeUpdate: QRCodeUpdate
-) => {
+): UseUpdateQRCodeResult => {
   const { data, error } = useSWR<QRCode, AxiosError>(
     qrCodeId ? `/api/v1/qr_code/${qrCodeId}` : null,
     () => updateQRCode(qrCodeId, qrCodeUpdate)
@@ -65,7 +102,13 @@ export const useUpdateQRCode = (
   };
 };
 
-export const useDeleteQRCode = (qrCodeId: string) => {
+export type UseUpdateQRCodeResult = {
+  updatedQRCode: QRCode | undefined;
+  isLoading: boolean;
+  isError: AxiosError | undefined;
+};
+
+export const useDeleteQRCode = (qrCodeId: string): UseDeleteQRCodeResult => {
   const { data, error } = useSWR<QRCode, AxiosError>(
     qrCodeId ? `/api/v1/qr_code/${qrCodeId}` : null,
     () => deleteQRCode(qrCodeId)
@@ -76,4 +119,10 @@ export const useDeleteQRCode = (qrCodeId: string) => {
     isLoading: !error && !data,
     isError: error,
   };
+};
+
+export type UseDeleteQRCodeResult = {
+  deletedQRCode: QRCode | undefined;
+  isLoading: boolean;
+  isError: AxiosError | undefined;
 };
