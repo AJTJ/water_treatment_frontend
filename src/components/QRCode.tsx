@@ -22,7 +22,7 @@ const QRCodeDetails: React.FC = () => {
       <p>Batch Number: {qrCode.batch_number}</p>
       <p>Full URL: {qrCode.full_url}</p>
       <p>Status: {qrCode.status}</p>
-      <p>Equipment ID: {qrCode.equipment_id || "no equipment associated"}</p>
+      <p>Item ID: {qrCode.item_id || "no item associated"}</p>
     </div>
   );
 };

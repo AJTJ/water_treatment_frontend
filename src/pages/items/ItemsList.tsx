@@ -1,24 +1,24 @@
 import React from "react";
-import { useManyEquipment } from "../../hooks/useEquipment";
+import { useManyItems } from "../../hooks/useItem";
 import Pagination from "../../components/Pagination";
 
-const EquipmentList: React.FC = () => {
+const ItemList: React.FC = () => {
   const [currentPage, setCurrentPage] = React.useState(1);
   const itemsPerPage = 50;
   const skip = (currentPage - 1) * itemsPerPage; // Calculate skip value based on page
   const {
-    equipmentList: equipmentResponse,
+    itemList: itemResponse,
     isLoading,
     isError,
-  } = useManyEquipment(skip, itemsPerPage);
+  } = useManyItems(skip, itemsPerPage);
 
   if (isLoading) return <div>Loading...</div>;
   if (isError) return <div>{isError.message}</div>;
-  if (!equipmentResponse) {
-    return <div>Equipment not found</div>;
+  if (!itemResponse) {
+    return <div>Item not found</div>;
   }
 
-  const totalPages = Math.ceil(equipmentResponse.total / itemsPerPage);
+  const totalPages = Math.ceil(itemResponse.total / itemsPerPage);
 
   const handlePageChange = (pageNumber: number) => {
     setCurrentPage(pageNumber);
@@ -26,11 +26,11 @@ const EquipmentList: React.FC = () => {
 
   return (
     <div>
-      <h1>All Equipment</h1>
+      <h1>All Item</h1>
       <ul>
-        {equipmentResponse.equipment.map((equipment) => (
-          <li key={equipment.id}>
-            <a href={`/equipment/${equipment.id}`}>{equipment.name}</a>
+        {itemResponse.items.map((item) => (
+          <li key={item.id}>
+            <a href={`/item/${item.id}`}>{item.name}</a>
           </li>
         ))}
       </ul>
@@ -44,4 +44,4 @@ const EquipmentList: React.FC = () => {
   );
 };
 
-export default EquipmentList;
+export default ItemList;

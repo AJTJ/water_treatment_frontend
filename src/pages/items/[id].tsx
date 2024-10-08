@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { EquipmentDetails } from "../../components/EquipmentDetails";
+import { ItemDetails } from "../../components/ItemDetails";
 
-export const EquipmentPage: React.FC = () => {
+export const ItemPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
 
   return (
     <div>
-      <EquipmentDetails />
+      <ItemDetails />
     </div>
   );
 };
 
-export default EquipmentPage;
+export default ItemPage;

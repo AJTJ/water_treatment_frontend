@@ -1,20 +1,22 @@
 import React from "react";
-import { useManyEquipmentRequest } from "../../hooks/useEquipmentRequest";
+import { useManyItemsRequest } from "../../hooks/useItemRequest";
 
-const EquipmentRequestsList: React.FC = () => {
+const ItemRequestsList: React.FC = () => {
   const [currentPage, setCurrentPage] = React.useState(1);
   const itemsPerPage = 50;
   const skip = (currentPage - 1) * itemsPerPage; // Calculate skip value based on page
-  const { equipmentRequestsResponse, isLoading, isError } =
-    useManyEquipmentRequest(skip, itemsPerPage);
+  const { itemRequestsResponse, isLoading, isError } = useManyItemsRequest(
+    skip,
+    itemsPerPage
+  );
 
   if (isLoading) return <div>Loading...</div>;
   if (isError) return <div>{isError.message}</div>;
-  if (!equipmentRequestsResponse) {
-    return <div>Equipment requests not found</div>;
+  if (!itemRequestsResponse) {
+    return <div>Item requests not found</div>;
   }
 
-  const totalPages = Math.ceil(equipmentRequestsResponse.total / itemsPerPage);
+  const totalPages = Math.ceil(itemRequestsResponse.total / itemsPerPage);
 
   const handlePageChange = (pageNumber: number) => {
     setCurrentPage(pageNumber);
@@ -22,13 +24,13 @@ const EquipmentRequestsList: React.FC = () => {
 
   return (
     <div>
-      <h1>Equipment Requests</h1>
+      <h1>Item Requests</h1>
       <ul>
-        {equipmentRequestsResponse.equipmentRequests.map((equipmentRequest) => (
-          <li key={equipmentRequest.id}>
-            <a href={`/equipmentRequests/${equipmentRequest.id}`}>
-              <div>{equipmentRequest.created_at.toString()}</div>
-              <div>{equipmentRequest.description}</div>
+        {itemRequestsResponse.itemRequests.map((itemRequest) => (
+          <li key={itemRequest.id}>
+            <a href={`/itemRequests/${itemRequest.id}`}>
+              <div>{itemRequest.created_at.toString()}</div>
+              <div>{itemRequest.description}</div>
             </a>
           </li>
         ))}
@@ -43,7 +45,7 @@ const EquipmentRequestsList: React.FC = () => {
   );
 };
 
-export default EquipmentRequestsList;
+export default ItemRequestsList;
 
 interface PaginationProps {
   currentPage: number;

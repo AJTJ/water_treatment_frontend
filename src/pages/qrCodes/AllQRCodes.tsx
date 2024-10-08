@@ -39,7 +39,7 @@ const AllQRCodes: React.FC = () => {
         {sortedQRCodes?.map((qrcode) => (
           <div key={qrcode.id}>
             <p>{qrcode.batch_number}</p>
-            <p>{qrcode.equipment_name}</p>
+            <p>{qrcode.item_name}</p>
           </div>
         ))}
       </div>

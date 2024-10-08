@@ -11,8 +11,8 @@ export type QRCode = {
   batch_number: number;
   full_url: string;
   status: QRCodeStatus;
-  equipment_id?: string;
-  equipment_name?: string;
+  item_id?: string;
+  item_name?: string;
 };
 
 export const getQRCodeById = async (id: string): Promise<QRCode> => {
@@ -61,7 +61,7 @@ export const createBatchQRCodes = async (
 };
 
 export type QRCodeUpdate = {
-  equipment_id?: string;
+  item_id?: string;
 };
 
 export const updateQRCode = async (

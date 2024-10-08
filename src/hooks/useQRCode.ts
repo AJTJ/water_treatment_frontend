@@ -8,7 +8,6 @@ import {
   QRCode,
   QRCodeUpdate,
   updateQRCode,
-  getManyQRCodesForPrinting,
   QRCodeResponse,
 } from "../services/qrCodeService";
 
@@ -46,24 +45,6 @@ export const useGetManyQRCodes = (
     isError: error,
   };
 };
-
-// export const useGetManyQRCodesForPrinting = (
-//   minBatch: number,
-//   maxBatch: number
-// ): GetManyQRCodesResult => {
-//   const { data, error } = useSWR<QRCode[], AxiosError>(
-//     minBatch && maxBatch
-//       ? `/v1/qr_codes_for_printing?minBatch=${minBatch}&maxBatch=${maxBatch}`
-//       : null,
-//     () => getManyQRCodesForPrinting(minBatch, maxBatch)
-//   );
-
-//   return {
-//     qrCodeList: data,
-//     isLoading: !error && !data,
-//     isError: error,
-//   };
-// };
 
 export const useCreateBatchQRCodes = (
   numberOfQRCodes: number
