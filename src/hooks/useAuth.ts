@@ -15,10 +15,14 @@ export const useAuth = () => {
   );
 
   // Function to initiate login
-  const loginUser = (email: string, password: string) => {
+  const loginUser = async (email: string, password: string) => {
     setEmail(email);
     setPassword(password);
-    mutate();
+    try {
+      await mutate(); // Trigger login
+    } catch (err) {
+      console.error("Login failed:", err);
+    }
   };
 
   // Logout function (clearing cookies is handled by backend)

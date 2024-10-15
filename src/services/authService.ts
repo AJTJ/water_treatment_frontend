@@ -2,11 +2,12 @@ import axiosInstance from "./axiosInstance";
 import { AxiosResponse } from "axios";
 
 export type LoginResponse = {
-  access_token: string;
-  id_token: string;
-  refresh_token: string;
-  token_type: string;
-  expires_in: number;
+  sub: string;
+  // access_token: string;
+  // id_token: string;
+  // refresh_token: string;
+  // token_type: string;
+  // expires_in: number;
 };
 
 interface RefreshResponse {
@@ -34,7 +35,7 @@ export const refreshToken = async (
   refreshToken: string
 ): Promise<RefreshResponse> => {
   const response = await axiosInstance.post<RefreshResponse>(
-    "/api/refresh-token",
+    "/v1/auth/refresh-token",
     {
       refresh_token: refreshToken,
     }
