@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import ItemRequestDetails from "../../components/ItemRequest";
+import { ItemRequestDetails } from "../../components";
 
 const ItemRequestPage: React.FC = () => {
   return (

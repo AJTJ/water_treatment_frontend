@@ -10,7 +10,7 @@ export type LoginResponse = {
   // expires_in: number;
 };
 
-interface RefreshResponse {
+export interface RefreshResponse {
   access_token: string;
   id_token: string;
   token_type: string;
@@ -29,6 +29,46 @@ export const login = async (
     }
   );
   return response.data;
+};
+
+export enum UserRoleEnum {
+  SUPER_ADMIN = "super_admin",
+  SYSTEM_ADMIN = "system_admin",
+  ADMIN = "admin",
+  OPERATOR = "operator",
+}
+
+export interface CreateUserRequest {
+  user_name: string;
+  email: string;
+  roles: UserRoleEnum[];
+}
+
+export enum UserStatus {
+  ACTIVE = "active",
+  INACTIVE = "inactive",
+}
+
+export interface UserBase {
+  id: string;
+  user_name: string;
+  email: string;
+  roles: UserRoleEnum[];
+
+  // Metadata
+  status: UserStatus;
+  created_at: Date;
+  updated_at: Date;
+}
+
+export const createUser = async (
+  createUserRequest: CreateUserRequest
+): Promise<UserBase> => {
+  return await axiosInstance.post("/v1/auth/create-user", createUserRequest);
+};
+
+export const logout = async (): Promise<void> => {
+  await axiosInstance.post("/v1/auth/logout");
 };
 
 export const refreshToken = async (

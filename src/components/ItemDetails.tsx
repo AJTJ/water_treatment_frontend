@@ -3,7 +3,7 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import { useItem } from "../hooks/useItem";
 
-export const ItemDetails: React.FC = () => {
+const ItemDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
 
   const { item, isLoading, isError } = useItem(id ?? "");
@@ -29,3 +29,5 @@ export const ItemDetails: React.FC = () => {
     </div>
   );
 };
+
+export default ItemDetails;
