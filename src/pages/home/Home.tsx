@@ -22,6 +22,7 @@ const Home: React.FC = () => {
       <Link to="/admin">Administrator things</Link>
 
       <button onClick={() => createUser(myRequest)}>Create Super User</button>
+      {/* <button onClick={() => getUser(myRequest)}>Create Super User</button> */}
       <AuthForm />
     </div>
   );

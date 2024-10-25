@@ -32,21 +32,21 @@ export const login = async (
 };
 
 export enum UserRoleEnum {
-  SUPER_ADMIN = "super_admin",
-  SYSTEM_ADMIN = "system_admin",
-  ADMIN = "admin",
-  OPERATOR = "operator",
+  SUPER_ADMIN = "SUPER_ADMIN",
+  SYSTEM_ADMIN = "SYSTEM_ADMIN",
+  ADMIN = "ADMIN",
+  OPERATOR = "OPERATOR",
 }
 
 export interface CreateUserRequest {
   user_name: string;
   email: string;
-  roles: UserRoleEnum[];
+  roles: string[];
 }
 
 export enum UserStatus {
-  ACTIVE = "active",
-  INACTIVE = "inactive",
+  ACTIVE = "ACTIVE",
+  INACTIVE = "INACTIVE",
 }
 
 export interface UserBase {
@@ -81,4 +81,12 @@ export const refreshToken = async (
     }
   );
   return response.data;
+};
+
+export interface GetUserRequest {
+  id: string;
+}
+
+export const getUser = async (getUserRequest: GetUserRequest) => {
+  return await axiosInstance.get(`/v1/auth/user/${getUserRequest.id}`);
 };

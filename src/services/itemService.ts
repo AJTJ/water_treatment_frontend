@@ -2,8 +2,8 @@ import axiosInstance from "./axiosInstance";
 import { AxiosResponse } from "axios";
 
 export enum ItemStatus {
-  ACTIVE = "active",
-  ARCHIVED = "archived",
+  ACTIVE = "ACTIVE",
+  ARCHIVED = "ARCHIVED",
 }
 
 export type Item = {
