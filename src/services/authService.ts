@@ -84,9 +84,11 @@ export const refreshToken = async (
 };
 
 export interface GetUserRequest {
-  id: string;
+  email: string;
 }
 
-export const getUser = async (getUserRequest: GetUserRequest) => {
-  return await axiosInstance.get(`/v1/auth/user/${getUserRequest.id}`);
+export const getUser = async (
+  getUserRequest: GetUserRequest
+): Promise<UserBase> => {
+  return await axiosInstance.get(`/v1/auth/user/${getUserRequest.email}`);
 };
