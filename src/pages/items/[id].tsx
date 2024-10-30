@@ -5,6 +5,8 @@ import { ItemDetails } from "../../components";
 export const ItemPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
 
+  // TODO: Get Item details by ID
+
   return (
     <div>
       <ItemDetails />

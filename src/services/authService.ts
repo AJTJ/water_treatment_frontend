@@ -2,12 +2,9 @@ import axiosInstance from "./axiosInstance";
 import { AxiosResponse } from "axios";
 
 export type LoginResponse = {
-  sub: string;
-  // access_token: string;
-  // id_token: string;
-  // refresh_token: string;
-  // token_type: string;
-  // expires_in: number;
+  is: string;
+  user_name: string;
+  email: string;
 };
 
 export interface RefreshResponse {

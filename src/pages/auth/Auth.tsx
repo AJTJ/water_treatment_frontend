@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import { AuthForm } from "../../components";
 import {
@@ -8,6 +8,7 @@ import {
 } from "../../services/authService";
 import { useCreateUser } from "../../hooks/useCreateUser";
 import { useGetUser } from "../../hooks/useGetUser";
+import { useAuthStore } from "../../store/AuthStore";
 
 let myRequest: CreateUserRequest = {
   user_name: "Aaron Janke",
@@ -19,7 +20,7 @@ let userRequest: GetUserRequest = {
   email: "janke.aaron@gmail.com",
 };
 
-const Home: React.FC = () => {
+const AuthPage: React.FC = () => {
   const {
     user: createdUser,
     error: createError,
@@ -28,15 +29,16 @@ const Home: React.FC = () => {
   } = useCreateUser();
 
   const { user, error, loading, getUser } = useGetUser();
+  const { user: authUser } = useAuthStore();
 
   console.log({ user, error, loading });
 
   return (
     <div>
-      <p>This is the home page.</p>
       <Link to="/allItems">All Equipment</Link>
       <Link to="/admin">Administrator things</Link>
 
+      <div>AuthStore User: {authUser && JSON.stringify(authUser)}</div>
       <div>Created User: {createdUser && JSON.stringify(createdUser)}</div>
       <div>CreateError: {JSON.stringify(createError)}</div>
       <div>CreateLoading: {JSON.stringify(createLoading)}</div>
@@ -51,4 +53,4 @@ const Home: React.FC = () => {
   );
 };
 
-export default Home;
+export default AuthPage;
