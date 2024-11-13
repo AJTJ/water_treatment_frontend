@@ -1,30 +1,67 @@
-import useSWR from "swr";
-import { AxiosError } from "axios";
-import { login, LoginResponse } from "../services/authService";
+import {
+  CognitoChallengeResponse,
+  login,
+  respondToChallenge,
+} from "../services/authService";
 import { useAuthStore } from "../store/AuthStore";
+import { useState } from "react";
 
 // Hook for managing authentication state
 export const useAuth = () => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState<Error | null>(null);
+  const [challengeResponse, setChallengeResponse] =
+    useState<CognitoChallengeResponse | null>(null);
+
   const {
-    user,
+    // user,
     login: loginUserInStore,
     logout: logoutUserFromStore,
   } = useAuthStore();
 
-  // SWR hook for login
-  const { error, mutate, isValidating } = useSWR<LoginResponse, AxiosError>(
-    null
-  );
-
   // Function to initiate login
   const loginUser = async (email: string, password: string) => {
+    setIsLoading(true);
+    setIsError(null);
+    setChallengeResponse(null);
+
     try {
-      const user = await mutate(() => login(email, password));
-      if (user) {
-        loginUserInStore(user);
+      const userLoginResponse = await login(email, password);
+
+      if ("challenge" in userLoginResponse) {
+        setChallengeResponse(userLoginResponse);
+      } else {
+        loginUserInStore(userLoginResponse);
       }
     } catch (err) {
-      console.error("Login failed:", err);
+      setIsError(err as Error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const completeNewPasswordChallenge = async (
+    email: string,
+    newPassword: string
+  ) => {
+    if (!challengeResponse) return;
+
+    setIsLoading(true);
+    setIsError(null);
+
+    try {
+      const response = await respondToChallenge(
+        email,
+        newPassword,
+        challengeResponse.session
+      );
+
+      loginUserInStore(response);
+      setChallengeResponse(null); // Clear the challenge state
+    } catch (error) {
+      setIsError(error as Error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -32,14 +69,14 @@ export const useAuth = () => {
   const logout = async () => {
     await fetch("/api/auth/logout", { method: "POST" });
     logoutUserFromStore();
-    mutate(undefined, false); // Clears the SWR state
   };
 
   return {
-    loginResponse: user,
-    isLoading: isValidating,
-    isError: error,
     loginUser,
     logout,
+    completeNewPasswordChallenge,
+    isLoading,
+    isError,
+    challengeResponse,
   };
 };

@@ -1,11 +1,18 @@
 import axiosInstance from "./axiosInstance";
 import { AxiosResponse } from "axios";
 
-export type LoginResponse = {
-  is: string;
+export type UserLoginResponse = {
+  id: string;
   user_name: string;
   email: string;
+  global_role?: UserRoleEnum;
 };
+
+export interface CognitoChallengeResponse {
+  challenge: string;
+  session: string;
+  message: string;
+}
 
 export interface RefreshResponse {
   access_token: string;
@@ -17,14 +24,32 @@ export interface RefreshResponse {
 export const login = async (
   email: string,
   password: string
-): Promise<LoginResponse> => {
-  const response: AxiosResponse<LoginResponse> = await axiosInstance.post(
+): Promise<UserLoginResponse | CognitoChallengeResponse> => {
+  const response: AxiosResponse<UserLoginResponse> = await axiosInstance.post(
     "/v1/auth/login",
     {
       email,
       password,
     }
   );
+
+  return response.data;
+};
+
+export const respondToChallenge = async (
+  email: string,
+  newPassword: string,
+  session: string
+): Promise<UserLoginResponse> => {
+  const response: AxiosResponse<UserLoginResponse> = await axiosInstance.post(
+    "/v1/auth/respond-to-challenge",
+    {
+      email,
+      new_password: newPassword,
+      session,
+    }
+  );
+
   return response.data;
 };
 
@@ -35,10 +60,16 @@ export enum UserRoleEnum {
   OPERATOR = "OPERATOR",
 }
 
+export type PlantsAndRoles = {
+  plant_id: string;
+  roles: UserRoleEnum[];
+};
+
 export interface CreateUserRequest {
   user_name: string;
   email: string;
-  roles: string[];
+  global_role?: UserRoleEnum;
+  plants_and_roles: PlantsAndRoles[];
 }
 
 export enum UserStatus {
@@ -88,4 +119,10 @@ export const getUser = async (
   getUserRequest: GetUserRequest
 ): Promise<UserBase> => {
   return await axiosInstance.get(`/v1/auth/user/${getUserRequest.email}`);
+};
+
+export const resetPassword = async (newPassword: string): Promise<void> => {
+  await axiosInstance.post("/v1/auth/reset-password", {
+    new_password: newPassword,
+  });
 };

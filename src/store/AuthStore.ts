@@ -1,9 +1,9 @@
 import { create } from "zustand";
-import { LoginResponse } from "../services/authService";
+import { UserLoginResponse } from "../services/authService";
 
 interface AuthState {
-  user: LoginResponse | null;
-  login: (user: LoginResponse) => void;
+  user: UserLoginResponse | null;
+  login: (user: UserLoginResponse) => void;
   logout: () => void;
 }
 

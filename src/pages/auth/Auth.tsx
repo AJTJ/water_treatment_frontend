@@ -13,7 +13,8 @@ import { useAuthStore } from "../../store/AuthStore";
 let myRequest: CreateUserRequest = {
   user_name: "Aaron Janke",
   email: "janke.aaron@gmail.com",
-  roles: [UserRoleEnum.SUPER_ADMIN],
+  global_role: UserRoleEnum.SUPER_ADMIN,
+  plants_and_roles: [],
 };
 
 let userRequest: GetUserRequest = {
