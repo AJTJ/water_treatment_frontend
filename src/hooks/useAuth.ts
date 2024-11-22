@@ -58,8 +58,17 @@ export const useAuth = () => {
 
       loginUserInStore(response);
       setChallengeResponse(null); // Clear the challenge state
-    } catch (error) {
-      setIsError(error as Error);
+    } catch (error: any) {
+      if (error.response && error.response.data) {
+        const errorDetail = error.response.data.detail;
+        const errorMessage =
+          typeof errorDetail === "string"
+            ? errorDetail
+            : `Code: ${errorDetail.error_code}, Message: ${errorDetail.error_message}`;
+        setIsError(new Error(errorMessage));
+      } else {
+        setIsError(error as Error);
+      }
     } finally {
       setIsLoading(false);
     }

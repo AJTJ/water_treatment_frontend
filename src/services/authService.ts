@@ -1,5 +1,6 @@
+import { useAuthStore } from "../store/AuthStore";
 import axiosInstance from "./axiosInstance";
-import { AxiosResponse } from "axios";
+import axios, { AxiosResponse } from "axios";
 
 export type UserLoginResponse = {
   id: string;
@@ -99,17 +100,44 @@ export const logout = async (): Promise<void> => {
   await axiosInstance.post("/v1/auth/logout");
 };
 
-export const refreshToken = async (
-  refreshToken: string
-): Promise<RefreshResponse> => {
+const refreshToken = async (): Promise<RefreshResponse> => {
   const response = await axiosInstance.post<RefreshResponse>(
-    "/v1/auth/refresh-token",
-    {
-      refresh_token: refreshToken,
-    }
+    "/v1/auth/refresh-token"
   );
   return response.data;
 };
+
+export async function validateSession() {
+  const login = useAuthStore.getState().login; // Access Zustand store function
+  const logout = useAuthStore.getState().logout;
+  try {
+    const response: AxiosResponse<UserBase> = await axiosInstance.get(
+      "/v1/auth/me",
+      { withCredentials: true }
+    );
+    const user = response.data; // Valid session
+    login(user);
+  } catch (error: unknown) {
+    if (axios.isAxiosError(error)) {
+      if (error.response && error.response.status === 401) {
+        try {
+          await refreshToken();
+          // Retry session validation after refresh
+          const retryResponse: AxiosResponse<UserBase> =
+            await axiosInstance.get("/v1/auth/me", { withCredentials: true });
+          const user = retryResponse.data;
+
+          login(user);
+        } catch {
+          console.log("Failed to refresh session. Logging out...");
+          logout();
+          return null;
+        }
+      }
+    }
+    throw error; // Re-throw other errors
+  }
+}
 
 export interface GetUserRequest {
   email: string;
@@ -125,4 +153,13 @@ export const resetPassword = async (newPassword: string): Promise<void> => {
   await axiosInstance.post("/v1/auth/reset-password", {
     new_password: newPassword,
   });
+};
+
+export const archiveUser = async (email: string): Promise<void> => {
+  await axiosInstance.post(`/v1/auth/archive-user/${email}`);
+};
+
+export const reactivateUser = async (email: string): Promise<void> => {
+  console.log("reactivateUser", email);
+  await axiosInstance.post(`/v1/auth/reactivate-user/${email}`);
 };

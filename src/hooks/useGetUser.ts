@@ -10,9 +10,7 @@ export const useGetUser = () => {
   const handleGetUser = async (request: GetUserRequest) => {
     setLoading(true);
     try {
-      console.log("AWAITING");
       const user = await getUser(request);
-      console.log("AWAITING FINISH");
       setUser(user);
     } catch (err) {
       setError(err as AxiosError);

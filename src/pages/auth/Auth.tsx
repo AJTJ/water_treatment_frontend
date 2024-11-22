@@ -9,6 +9,8 @@ import {
 import { useCreateUser } from "../../hooks/useCreateUser";
 import { useGetUser } from "../../hooks/useGetUser";
 import { useAuthStore } from "../../store/AuthStore";
+import { useArchiveUser } from "../../hooks/useArchiveUser";
+import { useReactivateUser } from "../../hooks/useReactivateUser";
 
 let myRequest: CreateUserRequest = {
   user_name: "Aaron Janke",
@@ -29,6 +31,9 @@ const AuthPage: React.FC = () => {
     createUser,
   } = useCreateUser();
 
+  const { archiveUser } = useArchiveUser();
+  const { error: reactivateError, reactivateUser } = useReactivateUser();
+
   const { user, error, loading, getUser } = useGetUser();
   const { user: authUser } = useAuthStore();
 
@@ -36,17 +41,21 @@ const AuthPage: React.FC = () => {
 
   return (
     <div>
+      <div>Logged in?: {authUser ? "Yes" : "No"}</div>
       <Link to="/allItems">All Equipment</Link>
       <Link to="/admin">Administrator things</Link>
+      <div>Created User: {JSON.stringify(createdUser)}</div>
+      {createError && <div>Error: {createError.message}</div>}
+      {createLoading && <div>Creating User...</div>}
+      <div>Authed User: {JSON.stringify(authUser)}</div>
 
-      <div>AuthStore User: {authUser && JSON.stringify(authUser)}</div>
-      <div>Created User: {createdUser && JSON.stringify(createdUser)}</div>
-      <div>CreateError: {JSON.stringify(createError)}</div>
-      <div>CreateLoading: {JSON.stringify(createLoading)}</div>
-      <div>Got User: {user && JSON.stringify(user)}</div>
-      <div>GetError: {JSON.stringify(error)}</div>
-      <div>GetLoading: {JSON.stringify(loading)}</div>
-
+      <button onClick={() => archiveUser("janke.aaron@gmail.com")}>
+        Archive User
+      </button>
+      <button onClick={() => reactivateUser("janke.aaron@gmail.com")}>
+        Reactivate User
+      </button>
+      {reactivateError && <div>ReactivateError: {reactivateError.message}</div>}
       <button onClick={() => createUser(myRequest)}>Create Super User</button>
       <button onClick={() => getUser(userRequest)}>Get Super User</button>
       <AuthForm />

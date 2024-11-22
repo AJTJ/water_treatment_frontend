@@ -10,7 +10,8 @@ const AuthForm = () => {
     completeNewPasswordChallenge,
   } = useAuth();
   const [email, setEmail] = useState<string>("janke.aaron@gmail.com");
-  const [password, setPassword] = useState<string>("6zIV$yjQ");
+  // const [password, setPassword] = useState<string>("uU@2OElW");
+  const [password, setPassword] = useState<string>("Dankmemes1!");
   const [newPassword, setNewPassword] = useState<string>("");
   const [confirmNewPassword, setConfirmNewPassword] = useState<string>("");
   const [passwordsMatch, setPasswordsMatch] = useState<boolean>(true);
