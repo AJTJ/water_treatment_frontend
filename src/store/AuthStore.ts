@@ -1,5 +1,5 @@
+import { UserLoginResponse } from "common/services/authService";
 import { create } from "zustand";
-import { UserLoginResponse } from "../services/authService";
 
 interface AuthState {
   user: UserLoginResponse | null;

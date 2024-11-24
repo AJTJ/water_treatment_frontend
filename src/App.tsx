@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { ThemeProvider } from "styled-components";
-import { theme } from "./styles/theme";
-import { GlobalStyles } from "./styles/GlobalStyles";
+import { theme } from "./common/styles/theme";
+import { GlobalStyles } from "./common/styles/GlobalStyles";
 import MyRoutes from "./routes";
-import { validateSession } from "./services/authService";
+import { validateSession } from "./common/services/authService";
 
 const App: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
