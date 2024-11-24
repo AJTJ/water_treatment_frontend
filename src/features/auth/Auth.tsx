@@ -62,7 +62,7 @@ const AuthPage: React.FC = () => {
       <button onClick={() => createUser(myRequest)}>Create Super User</button>
       <button onClick={() => getUser(userRequest)}>Get Super User</button>
       <button onClick={() => logoutUser()}>LogOut</button>
-      <AuthForm />
+      <AuthForm redirect="/dashboard" />
     </div>
   );
 };

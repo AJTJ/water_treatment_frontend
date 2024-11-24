@@ -1,4 +1,4 @@
-import ItemRequestPage from "./[id]";
-import ItemRequestsList from "./ItemRequestsList";
+import ItemRequest from "./ItemRequest";
+import ItemRequests from "./ItemRequests";
 
-export { ItemRequestPage, ItemRequestsList };
+export { ItemRequest, ItemRequests };

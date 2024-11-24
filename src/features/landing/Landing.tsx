@@ -6,7 +6,7 @@ const Landing: React.FC = () => {
   return (
     <div>
       <h1>Welcome to Streamline</h1>
-      <AuthForm />
+      <AuthForm redirect="/dashboard" />
       <Link to="/dashboard">Go to Dashboard</Link>
     </div>
   );

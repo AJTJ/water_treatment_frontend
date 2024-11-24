@@ -27,12 +27,12 @@ export const useAuth = () => {
     setChallengeResponse(null);
 
     try {
-      const userLoginResponse = await login(email, password);
+      const userResponse = await login(email, password);
 
-      if ("challenge" in userLoginResponse) {
-        setChallengeResponse(userLoginResponse);
+      if ("challenge" in userResponse) {
+        setChallengeResponse(userResponse);
       } else {
-        loginUserInStore(userLoginResponse);
+        loginUserInStore(userResponse);
       }
     } catch (err) {
       setIsError(err as Error);

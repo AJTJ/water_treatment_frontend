@@ -1,18 +1,21 @@
-// src/layouts/MainLayout.tsx
+// Layout.js
 import { NavBar } from "features/navBar";
-import React from "react";
+import { Outlet } from "react-router-dom";
+import styled from "styled-components";
 
-interface MainLayoutProps {
-  children: React.ReactNode;
-}
+const ContentWrapper = styled.div`
+  padding-top: 60px; // Same as the NavBar height
+`;
 
-const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
+function Layout() {
   return (
     <>
       <NavBar />
-      <main>{children}</main>
+      <ContentWrapper>
+        <Outlet />
+      </ContentWrapper>
     </>
   );
-};
+}
 
-export default MainLayout;
+export default Layout;

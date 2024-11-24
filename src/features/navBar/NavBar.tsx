@@ -1,5 +1,6 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuthStore } from "store/AuthStore";
 import styled from "styled-components";
 
 const NavBarContainer = styled.div`
@@ -7,6 +8,7 @@ const NavBarContainer = styled.div`
   top: 0;
   width: 100%;
   display: flex;
+  height: 60px;
   justify-content: space-between;
   align-items: center;
   padding: 10px 20px;
@@ -36,10 +38,17 @@ const ProfileButton = styled(Link)`
 `;
 
 const NavBar: React.FC = () => {
+  const navigate = useNavigate();
+
+  const handleTitleClick = () => {
+    navigate("/");
+  };
+
+  const { user } = useAuthStore();
   return (
-    <NavBarContainer>
+    <NavBarContainer onClick={handleTitleClick}>
       <Logo>Streamline</Logo>
-      <ProfileButton to="/profile">Profile</ProfileButton>
+      <ProfileButton to={user ? "/profile" : "/auth"}>Profile</ProfileButton>
     </NavBarContainer>
   );
 };

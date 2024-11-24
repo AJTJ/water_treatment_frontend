@@ -29,13 +29,6 @@ export interface UserBaseWithRelations extends UserBase {
   plants_and_roles?: PlantsAndRolesResponse[];
 }
 
-export type UserLoginResponse = {
-  id: string;
-  user_name: string;
-  email: string;
-  global_role?: UserRoleEnum;
-};
-
 export interface CognitoChallengeResponse {
   challenge: string;
   session: string;

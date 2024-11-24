@@ -1,7 +1,13 @@
 import React, { useState } from "react";
 import { useAuth } from "common/hooks/useAuth";
+import { useNavigate } from "react-router-dom";
 
-export const AuthForm = () => {
+interface AuthFormProps {
+  redirect?: string;
+}
+
+export const AuthForm: React.FC<AuthFormProps> = ({ redirect }) => {
+  console.log({ redirect });
   const {
     loginUser,
     isLoading,
@@ -15,9 +21,14 @@ export const AuthForm = () => {
   const [newPassword, setNewPassword] = useState<string>("");
   const [confirmNewPassword, setConfirmNewPassword] = useState<string>("");
   const [passwordsMatch, setPasswordsMatch] = useState<boolean>(true);
+  const navigate = useNavigate();
 
   const handleLogin = async () => {
     await loginUser(email, password);
+    console.log("logged in", redirect);
+    if (redirect) {
+      navigate(redirect);
+    }
   };
 
   const handleNewPasswordChange = (value: string) => {

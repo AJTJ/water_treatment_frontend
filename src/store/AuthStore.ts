@@ -1,9 +1,9 @@
-import { UserLoginResponse } from "common/services/authService";
+import { UserBaseWithRelations } from "common/services/authService";
 import { create } from "zustand";
 
 interface AuthState {
-  user: UserLoginResponse | null;
-  login: (user: UserLoginResponse) => void;
+  user: UserBaseWithRelations | null;
+  login: (user: UserBaseWithRelations) => void;
   logout: () => void;
 }
 
