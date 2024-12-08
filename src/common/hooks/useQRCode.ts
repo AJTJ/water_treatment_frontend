@@ -5,14 +5,14 @@ import {
   deleteQRCode,
   getManyQRCodes,
   getQRCodeById,
-  QRCode,
+  QRCodeBase,
   QRCodeUpdate,
   updateQRCode,
   QRCodeResponse,
 } from "../services/qrCodeService";
 
 export const useQRCodeById = (id: string) => {
-  const { data, error } = useSWR<QRCode, AxiosError>(
+  const { data, error } = useSWR<QRCodeBase, AxiosError>(
     id ? `/v1/qr_code/${id}` : null,
     () => getQRCodeById(id)
   );
@@ -49,7 +49,7 @@ export const useGetManyQRCodes = (
 export const useCreateBatchQRCodes = (
   numberOfQRCodes: number
 ): UseCreateBatchQRCodesResult => {
-  const { data, error } = useSWR<QRCode, AxiosError>(
+  const { data, error } = useSWR<QRCodeBase, AxiosError>(
     numberOfQRCodes ? "/api/v1/qr_code/" : null,
     () => createBatchQRCodes(numberOfQRCodes)
   );
@@ -62,7 +62,7 @@ export const useCreateBatchQRCodes = (
 };
 
 export type UseCreateBatchQRCodesResult = {
-  createdQRCode: QRCode | undefined;
+  createdQRCode: QRCodeBase | undefined;
   isLoading: boolean;
   isError: AxiosError | undefined;
 };
@@ -71,7 +71,7 @@ export const useUpdateQRCode = (
   qrCodeId: string,
   qrCodeUpdate: QRCodeUpdate
 ): UseUpdateQRCodeResult => {
-  const { data, error } = useSWR<QRCode, AxiosError>(
+  const { data, error } = useSWR<QRCodeBase, AxiosError>(
     qrCodeId ? `/api/v1/qr_code/${qrCodeId}` : null,
     () => updateQRCode(qrCodeId, qrCodeUpdate)
   );
@@ -84,13 +84,13 @@ export const useUpdateQRCode = (
 };
 
 export type UseUpdateQRCodeResult = {
-  updatedQRCode: QRCode | undefined;
+  updatedQRCode: QRCodeBase | undefined;
   isLoading: boolean;
   isError: AxiosError | undefined;
 };
 
 export const useDeleteQRCode = (qrCodeId: string): UseDeleteQRCodeResult => {
-  const { data, error } = useSWR<QRCode, AxiosError>(
+  const { data, error } = useSWR<QRCodeBase, AxiosError>(
     qrCodeId ? `/api/v1/qr_code/${qrCodeId}` : null,
     () => deleteQRCode(qrCodeId)
   );
@@ -103,7 +103,7 @@ export const useDeleteQRCode = (qrCodeId: string): UseDeleteQRCodeResult => {
 };
 
 export type UseDeleteQRCodeResult = {
-  deletedQRCode: QRCode | undefined;
+  deletedQRCode: QRCodeBase | undefined;
   isLoading: boolean;
   isError: AxiosError | undefined;
 };

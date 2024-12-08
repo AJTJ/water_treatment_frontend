@@ -3,7 +3,7 @@ import { AxiosError } from "axios";
 import {
   createItemRequest,
   deleteItemRequest,
-  ItemRequest,
+  ItemRequestBase,
   ItemRequestCreate,
   ItemRequestUpdate,
   getItemRequestById,
@@ -13,7 +13,7 @@ import {
 } from "../services/itemRequestService";
 
 export const useItemRequestByID = (id: string) => {
-  const { data, error } = useSWR<ItemRequest, AxiosError>(
+  const { data, error } = useSWR<ItemRequestBase, AxiosError>(
     `/api/item_request/${id}`,
     () => getItemRequestById(id),
     {
@@ -29,7 +29,7 @@ export const useItemRequestByID = (id: string) => {
 };
 
 export interface UseItemRequestResult {
-  itemRequest: ItemRequest | undefined;
+  itemRequest: ItemRequestBase | undefined;
   isLoading: boolean;
   isError: AxiosError | undefined;
 }
@@ -50,13 +50,13 @@ export const useManyItemsRequest = (skip: number, limit: number) => {
 };
 
 export interface UseManyItemRequestResult {
-  itemRequestList: ItemRequest[] | undefined;
+  itemRequestList: ItemRequestBase[] | undefined;
   isLoading: boolean;
   isError: AxiosError | undefined;
 }
 
 export const useCreateItemRequest = (itemRequestCreate: ItemRequestCreate) => {
-  const { data, error } = useSWR<ItemRequest, AxiosError>(
+  const { data, error } = useSWR<ItemRequestBase, AxiosError>(
     "/api/item_request/",
     () => createItemRequest(itemRequestCreate)
   );
@@ -72,7 +72,7 @@ export const useUpdateItemRequest = (
   requestId: string,
   itemRequestUpdate: ItemRequestUpdate
 ) => {
-  const { data, error } = useSWR<ItemRequest, AxiosError>(
+  const { data, error } = useSWR<ItemRequestBase, AxiosError>(
     `/api/item_request/${requestId}`,
     () => updateItemRequest(requestId, itemRequestUpdate)
   );
@@ -85,7 +85,7 @@ export const useUpdateItemRequest = (
 };
 
 export const useDeleteItemRequest = (requestId: string) => {
-  const { data, error } = useSWR<ItemRequest, AxiosError>(
+  const { data, error } = useSWR<ItemRequestBase, AxiosError>(
     `/api/item_request/${requestId}`,
     () => deleteItemRequest(requestId)
   );

@@ -1,9 +1,9 @@
 import Papa from "papaparse";
 import { saveAs } from "file-saver";
 
-import { QRCode } from "./qrCodeService";
+import { QRCodeBase } from "./qrCodeService";
 
-export const exportToCSV = (qrCodes: QRCode[]) => {
+export const exportToCSV = (qrCodes: QRCodeBase[]) => {
   // Define the CSV data structure
   const csvData = qrCodes.map((qr) => ({
     URL: qr.full_url,

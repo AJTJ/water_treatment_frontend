@@ -1,24 +1,33 @@
 import axiosInstance from "./axiosInstance";
 import { AxiosResponse } from "axios";
+import { ItemBase } from "./itemService";
+import { PartRequestBase } from "./partsService";
 
 enum ItemRequestStatus {
   ACTIVE = "ACTIVE",
   ARCHIVED = "ARCHIVED",
 }
 
-export type ItemRequest = {
+export type ItemRequestBase = {
   id: string;
   description?: string;
-  employee_name?: string;
   image_url?: string;
-  item_id: string;
+  requestor?: string;
   status: ItemRequestStatus;
   created_at: string;
   updated_at: string;
 };
 
-export const getItemRequestById = async (id: string): Promise<ItemRequest> => {
-  const response: AxiosResponse<ItemRequest> = await axiosInstance.get(
+export type ItemRequestBaseWithRelations = ItemRequestBase & {
+  item_id?: string;
+  item?: ItemBase;
+  parts?: PartRequestBase[];
+};
+
+export const getItemRequestById = async (
+  id: string
+): Promise<ItemRequestBase> => {
+  const response: AxiosResponse<ItemRequestBase> = await axiosInstance.get(
     `/v1/item_request/${id}`
   );
   return response.data;
@@ -26,7 +35,7 @@ export const getItemRequestById = async (id: string): Promise<ItemRequest> => {
 
 export type ManyItemRequestsResponse = {
   total: number;
-  itemRequests: ItemRequest[];
+  itemRequests: ItemRequestBase[];
 };
 
 export const getManyItemRequest = async (
@@ -49,8 +58,8 @@ export type ItemRequestCreate = {
 
 export const createItemRequest = async (
   itemRequestCreate: ItemRequestCreate
-): Promise<ItemRequest> => {
-  const response = await axiosInstance.post<ItemRequest>(
+): Promise<ItemRequestBase> => {
+  const response = await axiosInstance.post<ItemRequestBase>(
     "/api/v1/item_request/",
     itemRequestCreate
   );
@@ -66,8 +75,8 @@ export type ItemRequestUpdate = {
 export const updateItemRequest = async (
   requestId: string,
   requestUpdate: ItemRequestUpdate
-): Promise<ItemRequest> => {
-  const response = await axiosInstance.put<ItemRequest>(
+): Promise<ItemRequestBase> => {
+  const response = await axiosInstance.put<ItemRequestBase>(
     `/api/v1/item_request/${requestId}`,
     requestUpdate
   );
@@ -76,8 +85,8 @@ export const updateItemRequest = async (
 
 export const deleteItemRequest = async (
   requestId: string
-): Promise<ItemRequest> => {
-  const response = await axiosInstance.delete<ItemRequest>(
+): Promise<ItemRequestBase> => {
+  const response = await axiosInstance.delete<ItemRequestBase>(
     `/api/v1/item_request/${requestId}`
   );
   return response.data;

@@ -1,6 +1,6 @@
 import useSWR from "swr";
 import {
-  Item,
+  ItemBase,
   getItemById,
   getManyItems,
   ManyItemsResponse,
@@ -21,7 +21,7 @@ export const useManyItems = (skip: number, limit: number) => {
 };
 
 export const useItem = (id: string) => {
-  const { data, error } = useSWR<Item, AxiosError>(
+  const { data, error } = useSWR<ItemBase, AxiosError>(
     `/api/item/${id}`,
     () => getItemById(id),
     {
@@ -37,12 +37,12 @@ export const useItem = (id: string) => {
 };
 
 export interface UseManyItemResult {
-  itemList: Item[] | undefined;
+  itemList: ItemBase[] | undefined;
   isLoading: boolean;
   isError: AxiosError | undefined;
 }
 export interface UseItemResult {
-  item: Item | undefined;
+  item: ItemBase | undefined;
   isLoading: boolean;
   isError: AxiosError | undefined;
 }

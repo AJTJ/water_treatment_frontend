@@ -1,5 +1,5 @@
 import Plant from "./Plant";
 import AllPlants from "./AllPlants";
-import CreatePlant from "./CreatePlant";
+import CreateAndEditPlant from "./CreateAndEditPlant";
 
-export { Plant, AllPlants, CreatePlant };
+export { Plant, AllPlants, CreateAndEditPlant };
